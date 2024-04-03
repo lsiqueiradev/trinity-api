@@ -7,11 +7,52 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
 
-    public function login(Request $request)
+    public function sessionsValidate(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'type' => 'required|string',
+            'email' => 'required|string|email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if(!$user){
+            return response()->json([
+                'message' => 'user not found',
+                'status' => 1, // 1 = user create, 2 = user email login, 3 = user provider login
+            ], 200);
+        }
+        if ($user->provider_name == 'email') {
+            return response()->json([
+                'message' => 'user logged with email',
+                'status' => 2, // 1 = user create, 2 = user email login, 3 = user provider login
+            ], 200);
+        } else {
+            return response()->json([
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'avatar_url' => $user->avatar_url,
+                    'provider' => $user->provider_name,
+                ],
+                'message' => 'user logged with provider',
+                'status' => 3, // 1 = user create, 2 = user email login, 3 = user provider login
+            ], 200);
+        }
+    }
+
+    public function sessionsProvider(Request $request) {
+        dd('sessionsProvider');
+    }
+
+    public function sessions(Request $request)
     {
         $request->validate([
             'email' => 'required|string|email',
@@ -48,6 +89,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'provider_name' => 'email'
         ]);
 
         $token = Auth::login($user);

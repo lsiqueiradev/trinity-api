@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('sessions/validate', [AuthController::class, 'sessionsValidate']);
+Route::post('sessions/provider', [AuthController::class, 'sessionsProvider']);
+Route::post('sessions', [AuthController::class, 'sessions']);
 Route::post('register', [AuthController::class, 'register']);
 
 Route::group([
