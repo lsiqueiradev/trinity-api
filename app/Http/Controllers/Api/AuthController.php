@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
 
-    public function sessionsValidate(Request $request) {
+    public function sessionsValidate(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'type' => 'required|string',
             'email' => 'required|string|email',
@@ -48,7 +50,8 @@ class AuthController extends Controller
         }
     }
 
-    public function sessionsProvider(Request $request) {
+    public function sessionsProvider(Request $request)
+    {
         dd('sessionsProvider');
     }
 
@@ -76,7 +79,8 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:16',
