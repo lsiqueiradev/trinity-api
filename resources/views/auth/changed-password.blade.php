@@ -27,7 +27,7 @@
 
 <body class="antialiased bg-slate-200 px-4">
     <div class="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
-        <img src="{{ asset('storage/images/icon.png'); }}" class="w-16 h-16 rounded-md" alt="Image"/>
+        <img src="{{ asset('images/icon.png'); }}" class="w-16 h-16 rounded-md" alt="Image"/>
         <h1 class="text-4xl font-medium mt-4">senha atualizada com senha</h1>
         <p class="text-slate-500 mt-2">volte ao app para realizar o login</p>
     </div>
