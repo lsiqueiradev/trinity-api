@@ -24,7 +24,9 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'phone',
         'password',
-        'provider_name'
+        'avatar_url',
+        'provider_name',
+        'provider_token',
     ];
 
     /**
@@ -38,6 +40,7 @@ class User extends Authenticatable implements JWTSubject
         'password_reset_expires',
         'password_reset_token',
         'password',
+        'deleted_at'
     ];
 
     /**

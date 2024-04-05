@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-
     public function sessionsValidate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -42,7 +41,7 @@ class AuthController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'avatar_url' => $user->avatar_url,
-                    'provider' => $user->provider_name,
+                    'provider_name' => $user->provider_name,
                 ],
                 'message' => 'user logged with provider',
                 'status' => 3, // 1 = user create, 2 = user email login, 3 = user provider login
@@ -52,7 +51,28 @@ class AuthController extends Controller
 
     public function sessionsProvider(Request $request)
     {
-        dd('sessionsProvider');
+        $user = User::where('email', $request->email)->first();
+        if($user) {
+            $token = Auth::login($user);
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ]);
+        } else {
+            $user = User::create([
+                'email' => $request->email,
+                'name' => $request->name,
+                'provider_token' => $request->token,
+                'provider_name' => $request->type,
+                'avatar_url' => $request->avatar_url
+            ]);
+
+            $token = Auth::login($user);
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ]);
+        }
     }
 
     public function sessions(Request $request)

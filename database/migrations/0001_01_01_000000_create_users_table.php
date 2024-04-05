@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('name');
             $table->string('phone')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->text('provider_name')->nullable();
             $table->text('provider_token')->nullable();
             $table->string('avatar_url')->nullable();
