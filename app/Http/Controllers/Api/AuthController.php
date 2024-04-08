@@ -64,7 +64,8 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'provider_token' => $request->token,
                 'provider_name' => $request->type,
-                'avatar_url' => $request->avatar_url
+                'avatar_url' => $request->avatar_url,
+                'phone' => $request->phone
             ]);
 
             $token = Auth::login($user);
