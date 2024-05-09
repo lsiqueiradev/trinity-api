@@ -3,21 +3,92 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdateUser;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function index(Request $request) {
+        $users = User::query();
 
-    public function me()
-    {
+        $pageIndex = $request->has('page') ? $request->input('page') : 1;
+
+        $perPage = 10;
+
+        if($request->has('name')){
+            $users->where('name', 'like', "%{$request->input('name')}%");
+        }
+
+        if($request->has('email')){
+            $users->where('email', 'like', "%{$request->input('email')}%");
+        }
+
+        if($request->has('status')){
+            $users->where('status', 'like', "%{$request->input('status')}%");
+        }
+
+        $total = $users->get()->count();
+        $users = $users->offset(($pageIndex - 1) * 10)->limit($perPage)->get();
+
         return response()->json([
-            'user' => Auth::user(),
-        ]);
+            'users' => $users,
+            'meta' => [
+                'pageIndex' => (float)$pageIndex,
+                'totalCount' => $total,
+                'perPage' => $perPage
+            ],
+        ], 200);
+    }
+
+    public function edit(String $id) {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado.',
+            ], 401);
+        }
+
+        return response()->json([
+            'user' =>$user
+        ], 200);
+    }
+
+    public function update(StoreUpdateUser $request, $id)
+    {
+        $input = $request->all();
+
+        // if(!empty($input['password'])) {
+        //     $input['password'] = Hash::make($input['password']);
+        // } else {
+        //     $input = Arr::except($input, array('password'));
+        // }
+
+        $user = User::find($id);
+        $user->update($input);
+
+
+        return response()->json([
+            'message' => 'Usuário atualizado com sucesso.'
+        ], 200);
+    }
+
+    public function delete(String $id) {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado'
+            ], 401);
+        }
+
+        User::destroy($id);
+
+        return response()->json([
+            'message' => 'Usuário deletado com sucesso.'
+        ], 200);
+
     }
 
 }

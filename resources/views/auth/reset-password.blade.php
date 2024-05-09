@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name')}}</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +15,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-          theme: {
-            fontFamily: {
-                'sans': 'Kanit, Helvetica, Arial, sans-serif',
+            theme: {
+                fontFamily: {
+                    'sans': 'Kanit, Helvetica, Arial, sans-serif',
+                }
             }
-          }
         }
     </script>
 </head>
@@ -27,15 +27,16 @@
 
 <body class="antialiased bg-slate-200 px-4">
     <div class="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
-        <img src="{{ asset('images/icon.png'); }}" class="w-16 h-16 rounded-md" alt="Image"/>
+        <img src="{{ asset('images/icon.png') }}" class="w-16 h-16 rounded-md" alt="Image" />
         <h1 class="text-4xl font-medium mt-4">atualizar senha</h1>
-        <p class="text-slate-500 mt-2">deve incluir pelo menos uma letra maiúscula, um número e ter pelo menos 8 caracteres</p>
+        <p class="text-slate-500 mt-2">deve incluir pelo menos uma letra maiúscula, um número e ter pelo menos 8
+            caracteres</p>
 
-        @if($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-6 rounded relative" role="alert">
-            <strong class="font-bold">Caramba!</strong>
-            <span class="block sm:inline">{{ implode('', $errors->all(':message')) }}</span>
-        </div>
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-6 rounded relative" role="alert">
+                <strong class="font-bold">Caramba!</strong>
+                <span class="block sm:inline">{{ implode('', $errors->all(':message')) }}</span>
+            </div>
         @endif
 
         <form action="{{ route('password.store') }}" method="POST" class="my-6 mb-2">

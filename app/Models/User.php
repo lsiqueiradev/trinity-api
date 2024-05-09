@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'avatar_url',
         'provider_name',
         'provider_token',
+        'status'
     ];
 
     /**
@@ -36,7 +37,6 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'provider_token',
-        'status',
         'password_reset_expires',
         'password_reset_token',
         'password',

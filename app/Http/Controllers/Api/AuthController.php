@@ -15,7 +15,6 @@ class AuthController extends Controller
     public function sessionsValidate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'type' => 'required|string',
             'email' => 'required|string|email',
         ]);
 
@@ -27,24 +26,12 @@ class AuthController extends Controller
         if(!$user){
             return response()->json([
                 'message' => 'user not found',
-                'status' => 1, // 1 = user create, 2 = user email login, 3 = user provider login
-            ], 200);
-        }
-        if ($user->provider_name == 'email') {
-            return response()->json([
-                'message' => 'user logged with email',
-                'status' => 2, // 1 = user create, 2 = user email login, 3 = user provider login
+                'status' => 0,
             ], 200);
         } else {
             return response()->json([
-                'user' => [
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'avatar_url' => $user->avatar_url,
-                    'provider_name' => $user->provider_name,
-                ],
-                'message' => 'user logged with provider',
-                'status' => 3, // 1 = user create, 2 = user email login, 3 = user provider login
+                'message' => 'user exists account',
+                'status' => 1,
             ], 200);
         }
     }

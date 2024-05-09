@@ -27,16 +27,10 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
+            'phone' => '(00) 9 0000-0000',
+            'provider_name' => 'email',
+            'avatar_url' => "https://xsgames.co/randomusers/avatar.php?g=pixel",
+            'status' => fake()->randomElement(['active', 'inactive'])
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }
