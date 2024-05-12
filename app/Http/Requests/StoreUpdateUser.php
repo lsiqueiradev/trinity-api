@@ -70,6 +70,6 @@ class StoreUpdateUser extends FormRequest
         //     }
         // }
 
-        return $rules ;
+        return $rules;
     }
 }

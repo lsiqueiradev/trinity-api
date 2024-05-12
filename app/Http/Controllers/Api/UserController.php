@@ -52,26 +52,25 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'user' =>$user
+            'user' => $user
         ], 200);
     }
 
-    public function update(StoreUpdateUser $request, $id)
+    public function update(StoreUpdateUser $request, String $id)
     {
         $input = $request->all();
 
-        // if(!empty($input['password'])) {
-        //     $input['password'] = Hash::make($input['password']);
-        // } else {
-        //     $input = Arr::except($input, array('password'));
-        // }
-
         $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado.',
+            ], 401);
+        }
         $user->update($input);
 
-
         return response()->json([
-            'message' => 'Usuário atualizado com sucesso.'
+            'message' => 'Usuário atualizado com sucesso.',
+            'user' => $user
         ], 200);
     }
 
